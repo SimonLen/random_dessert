@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/gpt_pecipe.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="{% url 'homepage' %}">
+            <img class="logo" src="/static/images/RD_logo2.png" alt="RandomDessert logo">
+        </a>
+    </header>
+
+    <main class="recipe">
+        <div class="recipe__left">
+            <h1 class="recipe__title">{{ ingredients }}</h1>
+            <div class="recipe__content">
+                <p class="recipe__text">{{ gpt_recipe }}</p>
+                <img class="recipe__text__img" src="/static/images/star3.svg" alt="star">
+            </div>
+            <button class="btn btn__gpt_print"><img src="/static/images/printer.svg" alt="printer">Печать</button>
+            
+        </div>
+        <div class="recipe__right">
+            <img class="recipe__img" src="/static/images/pancakes.png" alt="pancakes">
+            <img class="recipe__arrow" src="/static/images/curl_arrow.svg" alt="arrow">
+        </div>
+    </main>
+    <script src="/static/js/gpt_recipe.js"></script>
+</body>
+
+</html>

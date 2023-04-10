@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RandomDessert</title>
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/recipes.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="{% url 'homepage' %}">
+            <img class="logo" src="/static/images/RD_logo2.png" alt="RandomDessert logo">
+        </a>
+        <form class="search-form" id="search-form" action="/recipes">
+            <div class="search">
+                <img class="search__icon" src="/static/images/loupe.svg" alt="">
+                <input class="search__field" type="text" placeholder="Рецепт" name="recipe">
+            </div>
+            <button class="btn search__btn" type="submit">Найти</button>
+        </form>
+    </header>
+    <main class="main">
+        {% if filter|length != 0 %}
+        <h1 class="request-text">По запросу «{{ search_params }}» найдено рецептов: {{ filter|length }}</h1>
+        <section class="cards">
+            {% for recipe in recipe_page_obj %}
+            <a class="card" href={{ recipe.id_recipe }}>
+
+                <div class="card__image">
+                    <img src="" alt="картинка с едой">
+                </div>
+                <div class="card__body">
+                    <h2 class="card__category">{{ recipe.meal_type }}</h2>
+                    <h3 class="card__title">{{ recipe.name_recipe }}</h3>
+                    <div class="card__bottom">
+                        <div class="card__time">
+                            <span class="time">25</span>мин
+                        </div>
+                        <div class="card__rating">
+                            <span class="rating">4.6</span>/5
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </section>
+
+        <section class="pagination">
+            <div class="pagination__content">
+                {% load spurl %}
+
+                {% if is_paginated %}
+
+                {% if recipe_page_obj.has_previous %}
+                <!-- <a href="{% spurl query=request.GET set_query='page=1'%}">First</a> -->
+                <a class="pagination__left"
+                    href="{% spurl query=request.GET set_query='page={{ recipe_page_obj.previous_page_number }}'%}">
+                    <img src="/static/images/page_left_arrow.svg" alt="page_left_arrow">
+                </a>
+                {% endif %}
+                <div class="pagination__numbers">
+                    {% for num in recipe_page_obj.paginator.page_range %}
+                    {% if recipe_page_obj.number == num %}
+                    <a class="pagination__number number_current" href="">{{ num }}</a>
+                    {% elif num > recipe_page_obj.number|add:'-3' and num < recipe_page_obj.number|add:'3' %} <a
+                        class="pagination__number" href="{% spurl query=request.GET set_query='page={{ num }}'%}">
+                        {{ num }}
+                        </a>
+                        {% endif %}
+                        {% endfor %}
+                </div>
+
+                {% if recipe_page_obj.has_next %}
+
+                <a class="pagination__right"
+                    href="{% spurl query=request.GET set_query='page={{ recipe_page_obj.next_page_number }}'%}">
+                    <img src="/static/images/page_right_arrow.svg" alt="page_right_arrow">
+                </a>
+                <!-- <a href="{% spurl query=request.GET set_query='page={{ recipe_page_obj.paginator.num_pages}}'%}">Last</a> -->
+
+                {% endif %}
+                {% endif %}
+
+            </div>
+        </section>
+        {% else %}
+        <section class="norecipe">
+            <h1 class="request-text">Упс. По запросу «{{ search_params }}» найдено рецептов: {{ filter|length }}</h1>
+
+            <img class="norecipe__img" src="/static/images/cat.svg" alt="cat">
+
+        </section>
+        {% endif %}
+    </main>
+
+    <script src="/static/js/recipes.js"></script>
+</body>
+
+</html>

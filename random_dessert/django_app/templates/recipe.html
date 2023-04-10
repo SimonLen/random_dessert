@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/recipe.css">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script> -->
+
+</head>
+
+<body>
+    <header class="header">
+        <a href="{% url 'homepage' %}">
+            <img class="logo" src="/static/images/RD_logo2.png" alt="RandomDessert logo">
+        </a>
+        <form class="search-form" id="search-form" action="/recipes">
+            <div class="search">
+                <img class="search__icon" src="/static/images/loupe.svg" alt="">
+                <input class="search__field" type="text" placeholder="Рецепт" name="recipe">
+            </div>
+            <button class="btn search__btn" type="submit">Найти</button>
+        </form>
+    </header>
+
+    <section class="title">
+        <div class="title__wrapper">
+            <div class="title__content">
+                <h2 class="title__category">{{ recipe.meal_type }}</h2>
+                <h1 class="title__text">{{ recipe.name_recipe }}</h1>
+                <div class="title__rating">
+                    <p class="rating__text">4.5/5</p>
+                    <div class="rating__stars">
+                        <img class="star_red" src="/static/images/red_star.svg" alt="red star">
+                        <img class="star_red" src="/static/images/red_star.svg" alt="red star">
+                        <img class="star_red" src="/static/images/red_star.svg" alt="red star">
+                        <img class="star_red" src="/static/images/red_star.svg" alt="red star">
+                        <img class="star_redwhite" src="/static/images/red_star.svg" alt="redwhite star">
+                    </div>
+                </div>
+                <div class="title__bottom">
+                    <div class="title__timer">
+                        <img class="timer__img" src="/static/images/timer.svg" alt="timer">
+                        <p class="timer__text">40 мин</p>
+                    </div>
+                    <div class="title__portion">
+                        <img class="portion__img" src="/static/images/dish.svg" alt="dish">
+                        <p class="portion__text">{{ recipe.portions }} порций</p>
+                    </div>
+                </div>
+            </div>
+            <img class="title__img" src="/static/images/meal_types/{{ recipe.meal_type }}.png" alt="dish">
+        </div>
+    </section>
+
+    <section class="info">
+        <div class="info__block calorie">
+            <p class="info__text calorie__text">Каллории</p>
+            <p class="info__value calorie__value">{{ recipe.calories }}</p>
+        </div>
+        <div class="info__block protein">
+            <p class="info__text protein__text">Белки</p>
+            <p class="info__value protein__value">{{ recipe.protein }}</p>
+        </div>
+        <div class="info__block fat">
+            <p class="info__text fat__text">Жиры</p>
+            <p class="info__value fat__value">{{ recipe.fat }}</p>
+        </div>
+        <div class="info__block carbohydrate">
+            <p class="info__text carbohydrate__text">Углеводы</p>
+            <p class="info__value carbohydrate__value">{{ recipe.carbo }}</p>
+        </div>
+    </section>
+
+    <section class="recipe">
+        <div class="ingredients">
+            <div class="ingredients__head">
+                <img class="ingredients_img" src="/static/images/food1.svg" alt="">
+                <h3 class="ingredients_title">Ингредиенты:</h3>
+            </div>
+            <ul class="ingredients__list">
+                {% for con in connections %}
+                {% if con.id_recipe_id == recipe.id_recipe %}
+
+                <li class="ingredients__item">
+                    <img class="ingredients__img" src="/static/images/rectangle.svg" alt="rectangle">
+                    <p class="ingredients__text">{{ con.id_ingr }}, {{ con.ingr_qty_unit }}</p>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+            </ul>
+        </div>
+        <div class="instruction">
+            <div class="instruction__head">
+                <img class="instruction_img" src="/static/images/food2.svg" alt="">
+                <h3 class="instruction_title">Инструкция приготовления</h3>
+            </div>
+            <p class="instruction__text"> {{ recipe.text_recipe }}</p>
+        </div>
+        <button class="btn btn_print"><img src="/static/images/printer.svg" alt="printer">Печать</button>
+        <!-- <button class="btn btn_pdf"><img src="" alt="">Сохранить в .pdf</button>
+        <button onclick="downloadPdf()">Сохранить PDF</button> -->
+    </section>
+
+
+
+
+
+    <!-- <h4>{{ recipe.cuisine }}</h4>
+    {% if recipe.vegetarian %}
+    <h4>Подходит для вегетарианцев</h4>
+    {% else %}
+    <h4>НЕ подходит для вегетарианцев</h4>
+    {% endif %}
+    <input type="button" onclick="history.back();" value="Назад" /> -->
+
+
+    <script src="/static/js/recipe.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
+</body>
